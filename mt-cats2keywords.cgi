@@ -1,11 +1,17 @@
 #!/usr/bin/perl -w
 #
-# Copyright 2004 Hirotaka Ogawa. This code cannot be rediributed without
-# permission.
+# mt-cats2keywords.cgi: A simple tool for adding keywords to each entries based on their categories
+# 
+# Release 0.10 (Apr 18, 2005)
 #
-# mt-cats2keywords.cgi: set keywords for each entries from their own categories
+# This software is provided as-is. You may use it for commercial or 
+# personal use. If you distribute it, please keep this notice intact.
+#
+# Copyright (c) 2005 Hirotaka Ogawa
 
+# PLEASE CHANGE THIS "BLOG_ID" AS YOU WANT
 use constant BLOG_ID => 1;
+
 use strict;
 local $|=1;
 
@@ -23,7 +29,6 @@ BEGIN {
 use MT;
 use MT::Entry;
 use MT::Category;
-#use MT::ConfigMgr;
 
 print "Content-Type: text/html\n\n";
 print <<HTML;
@@ -43,8 +48,8 @@ while (my $e = $e_iter->()) {
     next unless $cats && @$cats;
     my $keywords = join ' ', map { $_->label } @$cats;
     $e->keywords($keywords);
-#    $e->save
-#	or printf ("[ERR] %s at MT::Entry->id: [%s]\n", $e->errstr, $e->id);
+    $e->save
+	or printf ("[ERR] %s at MT::Entry->id: [%s]\n", $e->errstr, $e->id);
     printf("Entry [%s] title=%s keywords=%s\n", $e->id, $e->title, $e->keywords);
 }
 
